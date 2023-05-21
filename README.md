@@ -1,2 +1,2 @@
 # autotest_course
-heeeeee
+Курс автотестирования на Python
