@@ -35,6 +35,8 @@ class PublicTransport:
 
     @property
     def info(self):
+        output_str = f'Информация об экземпляре = {self.brand}, {self.color}, {self.year}, {self._engine_power}'
+        print(output_str)  # Выведет в консоль информацию об экземпляре при вызове функции
         return self.brand, self.color, self.year, self._engine_power
 
 
@@ -43,7 +45,7 @@ class Bus(PublicTransport):
         self.passengers = passengers
         self.__park = park
         self._fare = fare
-        PublicTransport.__init__(self, brand, engine_power, year, color, max_speed)
+        super().__init__(brand, engine_power, year, color, max_speed)
 
     @property
     def park(self):
@@ -51,7 +53,7 @@ class Bus(PublicTransport):
 
     @park.setter
     def park(self, x):
-        if 1000 < x < 9999:
+        if 1000 <= x <= 9999:
             self.__park = x
         else:
             raise AssertionError('Значение park должно быть в диапазоне от 1000 до 9999')
@@ -62,7 +64,7 @@ class Tram(PublicTransport):
         self.__route = route
         self.path = path
         self._fare = fare
-        PublicTransport.__init__(self, brand, engine_power, year, color, max_speed)
+        super().__init__(brand, engine_power, year, color, max_speed)
 
     @property
     def how_long(self):
@@ -101,3 +103,4 @@ try:
 except AssertionError:
     print('Проверка на правильность диапазона пройдена')
 print('Всё ок')
+

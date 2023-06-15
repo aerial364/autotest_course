@@ -21,13 +21,13 @@ class Segment:
         return round((sqrt((self.dot1[0] - self.dot2[0]) ** 2 + (self.dot1[1] - self.dot2[1]) ** 2)), 2)
 
     def x_axis_intersection(self):
-        if (self.dot1[1] < 0 < self.dot2[1]) or (self.dot1[1] > 0 > self.dot2[1]):
+        if (self.dot1[1] <= 0 <= self.dot2[1]) or (self.dot1[1] >= 0 >= self.dot2[1]):
             return True
         else:
             return False
 
     def y_axis_intersection(self):
-        if (self.dot1[0] < 0 < self.dot2[0]) or (self.dot1[0] > 0 > self.dot2[0]):
+        if (self.dot1[0] <= 0 <= self.dot2[0]) or (self.dot1[0] >= 0 >= self.dot2[0]):
             return True
         else:
             return False
@@ -45,10 +45,29 @@ data = [Segment((2, 3), (4, 5)).length,
         Segment((0, -3), (4, 5)).x_axis_intersection,
         Segment((2, 3), (4, 5)).y_axis_intersection,
         Segment((-2, -3), (4, 5)).y_axis_intersection,
-        Segment((-2, 3), (4, 0)).y_axis_intersection
+        Segment((-2, 3), (4, 0)).y_axis_intersection,
+
+        Segment((-2, 2), (3, 2)).y_axis_intersection,  # Доп. кейс - отрезок параллелен X и пересекает Y
+        Segment((-2, 2), (3, 2)).x_axis_intersection,  # Доп. кейс - отрезок параллелен X и пересекает Y
+        Segment((2, 5), (2, -3)).y_axis_intersection,  # Доп. кейс - отрезок параллелен Y и пересекает X
+        Segment((2, 5), (2, -3)).x_axis_intersection,  # Доп. кейс - отрезок параллелен Y и пересекает X
+
+        Segment((-10, -1), (-1, -1)).y_axis_intersection,  # Доп. кейс - отрезок параллелен X и НЕ пересекает Y
+        Segment((-10, -1), (-1, -1)).x_axis_intersection,  # Доп. кейс - отрезок параллелен X и НЕ пересекает Y
+        Segment((-1, -1), (-1, -3)).y_axis_intersection,  # Доп. кейс - отрезок параллелен Y и НЕ пересекает X
+        Segment((-1, -1), (-1, -3)).x_axis_intersection,  # Доп. кейс - отрезок параллелен Y и НЕ пересекает X
+
+        Segment((0, 3), (0, 1)).y_axis_intersection,  # Доп. кейс - Отрезок на оси Y и НЕ пересекает X
+        Segment((0, 3), (0, 1)).x_axis_intersection,  # Доп. кейс - Отрезок на оси Y и НЕ пересекает X
+        Segment((-3, 0), (3, 0)).y_axis_intersection,  # Доп. кейс - Отрезок на оси X и пересекает Y
+        Segment((-3, 0), (3, 0)).x_axis_intersection,  # Доп. кейс - Отрезок на оси X и пересекает Y
+
         ]
 
-test_data = [2.83, 7.0, 1.0, 7.62, True, False, True, False, True, True]
+test_data = [2.83, 7.0, 1.0, 7.62, True, False, True, False, True, True,
+             True, False, False, True,
+             False, False, False, False,
+             True, False, True, True]
 
 for i, d in enumerate(data):
     assert_error = f'Не прошла проверка для метода {d.__qualname__} экземпляра с атрибутами {d.__self__.__dict__}'
