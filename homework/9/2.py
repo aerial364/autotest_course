@@ -36,24 +36,36 @@ import datetime
 # Здесь пишем код
 
 
-def func_log(func, file_log='log.txt'):
-    def wrapper(*args, **kwargs):
-        func()  # Dызов функции
-        now = datetime.datetime.now().strftime('%d.%m %H:%M:%S')  # Получим текущее время
-        with open(file_log, mode='a', encoding='utf-8') as f:  # Откроем файл
-            f.writelines(f'{func.__name__} вызвана {now}\n')  # Запишем вызов функции
-            f.close()  # Закроем файл
-        wrapper.__name__ = func.__name__  # Запишем во wrapper информацию о вызываемой функции
-        wrapper.__doc__ = func.__doc__
+def func_log(file_log='log.txt'):
+    def wrapper(func):
+        def inner():
+            res = func()  # Вызов функции
+            now = datetime.datetime.now().strftime('%d.%m %H:%M:%S')  # Получим текущее время
+            inner.__name__ = func.__name__  # Запишем в inner имя вызываемой функции
+            inner.__doc__ = func.__doc__  # Запишем в inner документацию вызываемой функции
+            with open(file_log, mode='a', encoding='utf-8') as f:  # Откроем файл
+                f.writelines(f'{func.__name__} вызвана {now}\n')  # Запишем вызов функции
+                f.close()  # Закроем файл
+            return res
+        return inner
     return wrapper
 
 
-@func_log
+@func_log(file_log='log.txt')
 def func1():
     """Описание функции №1 с декоратором"""
     print("Первая функция")
 
 
+@func_log(file_log='func2.txt')
+def func2():
+    print('Вторая функция')
+
+
+func1()  # Вызов первой функции с декоратором с записью в log.txt
+time.sleep(1)
+func2()  # Вызов первой функции с декоратором с записью в func2.txt
+time.sleep(1)
 func1()  # Вызов первой функции с декоратором с записью в log.txt
 
 help(func1)  # Возвращаем информацию о функции 1 с декоратором (Будет работать даже без декоратора)
